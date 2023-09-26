@@ -1,0 +1,63 @@
+﻿@model BusinessObjects.Product
+
+@{
+    var categories = (List<BusinessObjects.Category>)ViewData["category"];
+}
+
+
+<form asp-controller="Product" asp-action="Edit" method="POST">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Edit Product</h1>
+
+        <hr />
+        <div class="row">
+            <input asp-for="ProductId" class="form-control" hidden />
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;"> Name</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Unit Price</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="UnitPrice" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Units In Stock</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="UnitsInStock" class="form-control" />
+                <span asp-validation-for="UnitsInStock" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Category</label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="CategoryId" class="form-select">
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.CategoryId">@item.CategoryName</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="col-5 offset-2">
+                <a asp-action="Index" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Edit" class="btn btn-success form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

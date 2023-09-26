@@ -12,3 +12,4 @@ C:\Users\Asus\source\repos\ASPNET\Lab01_ASPNETCoreWebAPI\BusinessObjects\obj\Deb
 C:\Users\Asus\source\repos\ASPNET\Lab01_ASPNETCoreWebAPI\BusinessObjects\obj\Debug\net6.0\BusinessObjects.pdb
 C:\Users\Asus\source\repos\ASPNET\Lab01_ASPNETCoreWebAPI\BusinessObjects\obj\Debug\net6.0\BusinessObjects.genruntimeconfig.cache
 C:\Users\Asus\source\repos\ASPNET\Lab01_ASPNETCoreWebAPI\BusinessObjects\obj\Debug\net6.0\ref\BusinessObjects.dll
+C:\Users\Asus\source\repos\ASPNET\Lab01_ASPNETCoreWebAPI\BusinessObjects\bin\Debug\net6.0\appsettings.json

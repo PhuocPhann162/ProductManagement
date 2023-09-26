@@ -5,17 +5,20 @@ using Repositories;
 
 namespace ProjectManagementAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsControllers : ControllerBase
     {
         private IProductRepository repository = new ProductRepository();
 
-        //GET: api/Products
+        //GET: api/products
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts() => repository.GetProducts();
 
-        // POST: ProductsController/Products
+        //GET: api/products/id
+        [HttpGet("{id:int}")]
+        public ActionResult<Product> GetProduct(int id) => repository.GetProductById(id);
+
         [HttpPost]
         public IActionResult PostProduct(Product p)
         {
@@ -23,29 +26,27 @@ namespace ProjectManagementAPI.Controllers
             return NoContent();
         }
 
-        // GET: ProductsController/Delete/5
-        [HttpDelete("id")]
+        [HttpPut("{id:int}")]
+        public IActionResult PutProduct(int id) 
+        {
+            var p = repository.GetProductById(id);
+            if(p == null) 
+                return NotFound();
+            repository.UpdateProduct(p);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
         public IActionResult DeleteProduct(int id)
         {
             var p = repository.GetProductById(id);
             if (p == null)
-            {
                 return NotFound();
-            }
             repository.DeleteProduct(p);
             return NoContent();
         }
 
-        [HttpPut("id")]
-        public IActionResult UpdateProduct(int id, Product p)
-        {
-            var pTmp = repository.GetProductById(id);
-            if(p == null)
-            {
-                return NotFound();
-            }
-            repository.UpdateProduct(p);
-            return NoContent();
-        }
+
+        
     }
 }

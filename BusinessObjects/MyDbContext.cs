@@ -11,6 +11,9 @@ namespace BusinessObjects
     public class MyDbContext : DbContext
     {
         public MyDbContext() { }
+
+        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())

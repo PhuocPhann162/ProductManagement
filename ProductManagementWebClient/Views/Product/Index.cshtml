@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<BusinessObjects.Product>
 
 @{
-	ViewData["Title"] = "Index";
+	ViewData["Title"] = "Product List";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-	<a asp-action="Create">Creat New</a>
+	<a asp-action="Create" class="text-decoration-none">Create New</a>
 </p>
 <table class="table">
 	<thead>
@@ -21,7 +21,12 @@
 			<th>
 				@Html.DisplayNameFor(model => model.UnitPrice)
 			</th>
-			<th></th>
+			<th>
+				@Html.DisplayNameFor(model => model.Category)
+			</th>
+			<th>
+				Actions
+			</th>
 		</tr>
 	</thead>
 
@@ -39,8 +44,12 @@
 					@Html.DisplayFor(modelItem => item.UnitPrice)
 				</td>
 				<td>
-					@Html.ActionLink("Detail", "Details", new {/* id=item.PrimaryKey */}) |
-					@Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+					<select class="form-control" asp-items="ViewBag.CategoryId" asp-for="@item.CategoryId" disabled></select>
+				</td>
+				<td>
+					@Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+					@Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
 				</td>
 			</tr>
 		}

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{D8D660C3-4C17-4967-B45E-2E0991C10EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{D8D660C3-4C17-4967-B45E-2E0991C10EB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{E3FE3629-DF67-4781-8C48-011C2F208BA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{E3FE3629-DF67-4781-8C48-011C2F208BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E82374C5-CE03-42EA-9262-A4F415EE69E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E82374C5-CE03-42EA-9262-A4F415EE69E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementAPI", "ProjectManagementAPI\ProjectManagementAPI.csproj", "{34391ABF-92D5-48A4-9CE9-FBB42998E0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagementAPI", "ProjectManagementAPI\ProjectManagementAPI.csproj", "{34391ABF-92D5-48A4-9CE9-FBB42998E0D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementWebClient", "ProductManagementWebClient\ProductManagementWebClient.csproj", "{B21B18AF-165D-47E8-ADDE-4A9D71777C85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementWebClient", "ProductManagementWebClient\ProductManagementWebClient.csproj", "{B21B18AF-165D-47E8-ADDE-4A9D71777C85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

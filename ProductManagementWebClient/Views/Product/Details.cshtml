@@ -1,0 +1,54 @@
+﻿@model BusinessObjects.Product
+
+@{
+    var categories = (List<BusinessObjects.Category>)ViewData["category"];
+}
+
+<form>
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-center">Product Details</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">ID</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ProductId" value="@Model.ProductId" class="form-control" disabled />
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Name</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ProductName" class="form-control" disabled />
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Unit Price</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="UnitPrice" class="form-control" disabled />
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Units In Stock</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="UnitsInStock" class="form-control" disabled />
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Category</label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="CategoryId" class="form-select" disabled>
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.CategoryId">@item.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12">
+                <a asp-action="Index" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>

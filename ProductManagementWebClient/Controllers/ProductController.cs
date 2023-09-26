@@ -1,8 +1,6 @@
 ﻿using BusinessObjects;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using ProductManagementWebClient.Models;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -13,107 +11,125 @@ namespace ProductManagementWebClient.Controllers
     {
         private readonly HttpClient client = null;
         private string ProductApiUrl = "";
+        private string CategoryApiUrl = "";
 
         public ProductController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            ProductApiUrl = "http://localhost:53633/api/products";
+            ProductApiUrl = "https://localhost:7132/api/products";
+            CategoryApiUrl = "https://localhost:7132/api/categories";
         }
 
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage response = await client.GetAsync(ProductApiUrl);
-            string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
+            HttpResponseMessage productResponse = await client.GetAsync(ProductApiUrl);
+            List<Product>? listProducts = new List<Product>();
+            if(productResponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                PropertyNameCaseInsensitive = true,
-            };
-            List<Product> listProducts = JsonSerializer.Deserialize<List<Product>>(strData, options);
+                listProducts = await productResponse.Content.ReadFromJsonAsync<List<Product>>();
+            }
+
+            HttpResponseMessage cateResponse = await client.GetAsync(CategoryApiUrl);
+            List<Category>? listCategories = new List<Category>();
+            if (cateResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                listCategories = await cateResponse.Content.ReadFromJsonAsync<List<Category>>();
+            }
+
+            ViewData["CategoryId"] = new SelectList(listCategories, "CategoryId", "CategoryName");
+
             return View(listProducts);
         }
 
-        // GET: ProductController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            HttpResponseMessage response = await client.GetAsync(ProductApiUrl);
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage productResponse = await client.GetAsync(ProductApiUrl + $"/{id}");
+            Product? product = new Product();
+            if (productResponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                string strData = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                };
-                List<Product> listProducts = JsonSerializer.Deserialize<List<Product>>(strData, options);
-                foreach (Product p in listProducts)
-                {
-                    if (p.ProductId == id)
-                    {
-                        return View(p);
-                    }
-                }
-                return NotFound();
+                product = await productResponse.Content.ReadFromJsonAsync<Product>();
             }
-            else return NotFound();
+
+            HttpResponseMessage cateResponse = await client.GetAsync(CategoryApiUrl);
+            List<Category>? listCategories = new List<Category>();
+            if (cateResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                listCategories = await cateResponse.Content.ReadFromJsonAsync<List<Category>>();
+            }
+
+            ViewData["category"] = listCategories;
+
+            return View(product);
         }
 
-        // GET: ProductController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            HttpResponseMessage cateResponse = await client.GetAsync(CategoryApiUrl);
+            List<Category>? listCategories = new List<Category>();
+            if (cateResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                listCategories = await cateResponse.Content.ReadFromJsonAsync<List<Category>>();
+            }
+
+            ViewData["category"] = listCategories;
             return View();
         }
 
-        // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Create(Product p)
         {
+            HttpResponseMessage response = await client.PostAsJsonAsync(ProductApiUrl, p);
             if (ModelState.IsValid)
             {
-                var content = new StringContent(JsonSerializer.Serialize(p), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(ProductApiUrl, content);
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-
+                    return RedirectToAction("Index");
                 }
             }
+            return Redirect("Create");
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            HttpResponseMessage productResponse = await client.GetAsync(ProductApiUrl + $"/{id}");
+            Product product = new Product();
+            if (productResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                product = productResponse.Content.ReadFromJsonAsync<Product>().Result;
+            }
+
+            HttpResponseMessage categoryResponse = await client.GetAsync(CategoryApiUrl);
+            List<Category>? listCategories = new List<Category>();
+            if (categoryResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                listCategories = categoryResponse.Content.ReadFromJsonAsync<List<Category>>().Result;
+            }
+            ViewData["category"] = listCategories;
+
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(int id, Product p)
+        {
+            if (ModelState.IsValid)
+            {
+                await client.PutAsJsonAsync(ProductApiUrl + $"/{p.ProductId}", p);
+                return RedirectToAction("Index");
+            }
+
             return View(p);
         }
 
-        // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-
-        }
-
-        // POST: ProductController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-
-        }
-
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-
-        }
-
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-
+            await client.DeleteAsync(ProductApiUrl + $"/{id}");
+            return RedirectToAction("Index");
         }
     }
 }
